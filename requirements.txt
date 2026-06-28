@@ -1,0 +1,7 @@
+flask
+gunicorn
+face_recognition
+opencv-python-headless
+numpy
+Pillow
+setuptools<81
