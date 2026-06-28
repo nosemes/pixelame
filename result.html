@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Resultat</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; line-height: 1.45; }
+    .summary { border: 1px solid #ddd; padding: 18px; border-radius: 12px; }
+    a.button { display: inline-block; margin: 20px 0; padding: 12px 18px; background: #1a73e8; color: white; text-decoration: none; border-radius: 8px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    td, th { border-bottom: 1px solid #ddd; padding: 8px; text-align: left; }
+    .err { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Procés acabat</h1>
+  <div class="summary">
+    <p><strong>Fotos processades:</strong> {{ total }}</p>
+    <p><strong>Fotos amb coincidència pixelada:</strong> {{ matched }}</p>
+    <p><strong>Errors:</strong> {{ errors }}</p>
+  </div>
+
+  <a class="button" href="{{ url_for('download', job_id=job_id) }}">Descarregar ZIP amb fotos pixelades</a>
+  <p><a href="{{ url_for('index') }}">Fer una altra prova</a></p>
+
+  <table>
+    <tr><th>Fitxer</th><th>Cares pixelades</th><th>Error</th></tr>
+    {% for name, count, error in results %}
+      <tr>
+        <td>{{ name }}</td>
+        <td>{{ count }}</td>
+        <td class="err">{{ error or "" }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
