@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Pixelador de cara de referència</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 850px; margin: 40px auto; line-height: 1.45; }
+    .card { border: 1px solid #ddd; padding: 22px; border-radius: 12px; }
+    label { display: block; margin-top: 18px; font-weight: bold; }
+    input { margin-top: 6px; }
+    .row { display: flex; gap: 20px; flex-wrap: wrap; }
+    .row div { flex: 1; min-width: 160px; }
+    button { margin-top: 24px; padding: 12px 20px; font-size: 16px; cursor: pointer; }
+    .flash { background: #ffecec; border: 1px solid #cc7777; padding: 10px; margin-bottom: 16px; }
+    .hint { color: #555; font-size: 0.95em; }
+  </style>
+</head>
+<body>
+  <h1>Pixelador automàtic</h1>
+  <p>Selecciona una foto de referència i una carpeta amb fotos. El programa pixelarà només les cares que coincideixin amb la referència.</p>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      <label>A) Foto de referència</label>
+      <input type="file" name="reference" accept="image/*" required>
+      <div class="hint">Ha de ser una foto clara, frontal i amb una sola cara principal.</div>
+
+      <label>B) Carpeta o fotos a pixelar</label>
+      <input type="file" name="photos" accept="image/*" multiple webkitdirectory directory required>
+      <div class="hint">A Chrome/Edge pots seleccionar una carpeta sencera. Si no et funciona, selecciona múltiples fotos.</div>
+
+      <div class="row">
+        <div>
+          <label>Tolerància</label>
+          <input type="number" name="tolerance" value="0.55" min="0.35" max="0.70" step="0.01">
+          <div class="hint">Més baix = més estricte. Prova 0.50-0.60.</div>
+        </div>
+        <div>
+          <label>Pixelació</label>
+          <input type="number" name="pixel_size" value="5" min="3" max="20" step="1">
+          <div class="hint">Més baix = més pixelat.</div>
+        </div>
+        <div>
+          <label>Marge</label>
+          <input type="number" name="margin" value="20" min="0" max="80" step="1">
+          <div class="hint">Amplia la zona pixelada.</div>
+        </div>
+      </div>
+
+      <button type="submit">Processar i generar ZIP</button>
+    </form>
+  </div>
+</body>
+</html>
